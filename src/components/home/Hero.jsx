@@ -6,6 +6,7 @@ import logo2 from "../../assets/tds_logo_03.png";
 function Hero() {
   const [videoFailed, setVideoFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,6 +16,45 @@ function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+
+      setScrollY(y);
+
+      // Re-trigger hero entrance animation
+      // when user scrolls back near the top
+      if (y < window.innerHeight * 0.35) {
+        setLoaded(false);
+
+        setTimeout(() => {
+          setLoaded(true);
+        }, 50);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const heroProgress = Math.min(
+    scrollY / (window.innerHeight * 0.7),
+    1
+  );
+
+  const heroContentStyle = {
+    transform: `
+      translate3d(0, ${-heroProgress * 40}px, 0)
+      scale(${1 - heroProgress * 0.08})
+    `,
+    opacity: 1 - heroProgress,
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden">
 
@@ -23,11 +63,10 @@ function Hero() {
       {/* ========================================================= */}
 
       <img
-  src="/wave.webp"
-  alt=""
-  className="absolute inset-0 h-full w-full object-cover"
-/>
-
+        src="/wave.webp"
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+      />
 
       {/* ========================================================= */}
       {/* WAVE VIDEO                                                */}
@@ -46,7 +85,6 @@ function Hero() {
         </video>
       )}
 
-
       {/* ========================================================= */}
       {/* VIDEO OVERLAY                                              */}
       {/* ========================================================= */}
@@ -56,7 +94,6 @@ function Hero() {
       {/* Bottom Depth */}
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#061936]/60 to-transparent" />
 
-
       {/* ========================================================= */}
       {/* HERO CONTAINER                                             */}
       {/* ========================================================= */}
@@ -64,7 +101,6 @@ function Hero() {
       <div className="relative z-10 min-h-screen">
 
         <div className="mx-auto min-h-screen max-w-7xl px-6 lg:px-8">
-
 
           {/* ===================================================== */}
           {/* TDS LOGO                                               */}
@@ -80,182 +116,181 @@ function Hero() {
           </div>
           */}
 
-
           {/* ===================================================== */}
           {/* HERO CONTENT                                            */}
           {/* ===================================================== */}
 
           <div className="flex min-h-screen items-center">
 
-            <div className="max-w-5xl pt-24">
+            <div
+              style={heroContentStyle}
+              className="w-full transform-gpu"
+            >
 
+              <div className="max-w-5xl pt-24">
 
-              {/* ================================================= */}
-              {/* HEADING                                            */}
-              {/* ================================================= */}
+                {/* ================================================= */}
+                {/* HEADING                                            */}
+                {/* ================================================= */}
 
-              <h1
-                className={`
-                  max-w-5xl
-                  text-5xl font-bold
-                  leading-[0.98]
-                  tracking-[-0.04em]
-                  text-white
-                  sm:text-6xl
-                  lg:text-[88px]
-
-                  transition-all
-                  duration-[1200ms]
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                  ${
-                    loaded
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-10 opacity-0"
-                  }
-                `}
-              >
-
-                <span
-                  className="block"
-                  style={{
-                    transitionDelay: "100ms",
-                  }}
-                >
-                  Performance marketing
-                </span>
-
-
-                <span
-                  className="block text-white"
-                  style={{
-                    transitionDelay: "220ms",
-                  }}
-                >
-                  that moves
-                </span>
-
-
-                <span
-                  className="block text-[#6DB7FF]"
-                  style={{
-                    transitionDelay: "340ms",
-                  }}
-                >
-                  brands forward.
-                </span>
-
-              </h1>
-
-
-              {/* ================================================= */}
-              {/* DESCRIPTION                                        */}
-              {/* ================================================= */}
-
-              <p
-                className={`
-                  mt-8
-                  max-w-2xl
-                  text-base
-                  leading-7
-                  text-white/80
-                  sm:text-lg
-                  sm:leading-8
-
-                  transition-all
-                  duration-[1000ms]
-                  delay-[500ms]
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                  ${
-                    loaded
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-6 opacity-0"
-                  }
-                `}
-              >
-                We connect advertisers with performance-driven traffic
-                and help publishers turn their audience into measurable growth.
-              </p>
-
-
-              {/* ================================================= */}
-              {/* CTA                                                */}
-              {/* ================================================= */}
-
-              <div
-                className={`
-                  mt-9
-                  flex
-                  flex-wrap
-                  items-center
-                  gap-4
-
-                  transition-all
-                  duration-[1000ms]
-                  delay-[650ms]
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                  ${
-                    loaded
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-6 opacity-0"
-                  }
-                `}
-              >
-
-                {/* Advertisers */}
-                <a
-                  href="#advertisers"
-                  className="
-                    rounded-full
-                    bg-[#1261F2]
-                    px-7
-                    py-3.5
-                    text-sm
-                    font-semibold
+                <h1
+                  className={`
+                    max-w-5xl
+                    text-5xl font-bold
+                    leading-[0.98]
+                    tracking-[-0.04em]
                     text-white
-                    shadow-lg
-                    shadow-blue-950/20
-                    transition
-                    duration-300
-                    hover:-translate-y-0.5
-                    hover:bg-[#0d4fd1]
-                  "
-                >
-                  For Advertisers
-                </a>
+                    sm:text-6xl
+                    lg:text-[88px]
 
+                    transition-all
+                    duration-[1200ms]
+                    ease-[cubic-bezier(0.22,1,0.36,1)]
 
-                {/* Publishers */}
-                <a
-                  href="#publishers"
-                  className="
-                    rounded-full
-                    border
-                    border-white/35
-                    bg-white/10
-                    px-7
-                    py-3.5
-                    text-sm
-                    font-semibold
-                    text-white
-                    backdrop-blur-md
-                    transition
-                    duration-300
-                    hover:-translate-y-0.5
-                    hover:bg-white/20
-                  "
+                    ${
+                      loaded
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-10 opacity-0"
+                    }
+                  `}
                 >
-                  For Publishers
-                </a>
+
+                  <span
+                    className="block"
+                    style={{
+                      transitionDelay: "100ms",
+                    }}
+                  >
+                    Performance marketing
+                  </span>
+
+                  <span
+                    className="block text-white"
+                    style={{
+                      transitionDelay: "220ms",
+                    }}
+                  >
+                    that moves
+                  </span>
+
+                  <span
+                    className="block text-[#6DB7FF]"
+                    style={{
+                      transitionDelay: "340ms",
+                    }}
+                  >
+                    brands forward.
+                  </span>
+
+                </h1>
+
+                {/* ================================================= */}
+                {/* DESCRIPTION                                        */}
+                {/* ================================================= */}
+
+                <p
+                  className={`
+                    mt-8
+                    max-w-2xl
+                    text-base
+                    leading-7
+                    text-white/80
+                    sm:text-lg
+                    sm:leading-8
+
+                    transition-all
+                    duration-[1000ms]
+                    delay-[500ms]
+                    ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                    ${
+                      loaded
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-6 opacity-0"
+                    }
+                  `}
+                >
+                  We connect advertisers with performance-driven traffic
+                  and help publishers turn their audience into measurable growth.
+                </p>
+
+                {/* ================================================= */}
+                {/* CTA                                                */}
+                {/* ================================================= */}
+
+                <div
+                  className={`
+                    mt-9
+                    flex
+                    flex-wrap
+                    items-center
+                    gap-4
+
+                    transition-all
+                    duration-[1000ms]
+                    delay-[650ms]
+                    ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                    ${
+                      loaded
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-6 opacity-0"
+                    }
+                  `}
+                >
+
+                  {/* Advertisers */}
+                  <a
+                    href="#advertisers"
+                    className="
+                      rounded-full
+                      bg-[#1261F2]
+                      px-7
+                      py-3.5
+                      text-sm
+                      font-semibold
+                      text-white
+                      shadow-lg
+                      shadow-blue-950/20
+                      transition
+                      duration-300
+                      hover:-translate-y-0.5
+                      hover:bg-[#0d4fd1]
+                    "
+                  >
+                    For Advertisers
+                  </a>
+
+                  {/* Publishers */}
+                  <a
+                    href="#publishers"
+                    className="
+                      rounded-full
+                      border
+                      border-white/35
+                      bg-white/10
+                      px-7
+                      py-3.5
+                      text-sm
+                      font-semibold
+                      text-white
+                      backdrop-blur-md
+                      transition
+                      duration-300
+                      hover:-translate-y-0.5
+                      hover:bg-white/20
+                    "
+                  >
+                    For Publishers
+                  </a>
+
+                </div>
 
               </div>
 
             </div>
 
           </div>
-
 
           {/* ===================================================== */}
           {/* BOTTOM INFO                                            */}
@@ -286,7 +321,6 @@ function Hero() {
           >
 
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-
 
               {/* Explore */}
               <div className="flex items-center gap-3">
@@ -324,7 +358,6 @@ function Hero() {
 
               </div>
 
-
               {/* Categories */}
               <div
                 className="
@@ -339,12 +372,10 @@ function Hero() {
                   text-white/55
                 "
               >
-
                 <span>Performance</span>
                 <span>Mobile</span>
                 <span>Display</span>
                 <span>Affiliate</span>
-
               </div>
 
             </div>

@@ -1,6 +1,41 @@
+import { useEffect, useRef, useState } from "react";
+
 function IntroSection() {
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  /*
+  =========================================================
+  SECTION VIEWPORT ANIMATION
+  =========================================================
+
+  Animation starts when this section enters the viewport.
+  When the section leaves the viewport, it resets.
+  So when the user comes back to this section,
+  the animation plays again.
+  */
+  useEffect(() => {
+    const section = sectionRef.current;
+
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.25,
+      }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="about"
       className="relative overflow-hidden bg-white"
     >
@@ -8,7 +43,19 @@ function IntroSection() {
           DESKTOP — TDS BRAND STRIP
       ========================================================== */}
       <div className="absolute right-0 top-0 z-20 hidden h-full w-24 bg-[#071A35] lg:flex">
-        <div className="flex h-full w-full items-center justify-center">
+        <div
+          className={`
+            flex h-full w-full items-center justify-center
+            transition-all
+            duration-1000
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+            ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }
+          `}
+        >
           <div className="flex flex-col items-center gap-2">
             <span className="text-2xl font-bold leading-none text-white">
               T
@@ -25,12 +72,11 @@ function IntroSection() {
         </div>
       </div>
 
-
       {/* =========================================================
           DESKTOP — VIDEO + FALLBACK IMAGE
       ========================================================== */}
       <div
-        className="
+        className={`
           absolute
           right-24
           top-0
@@ -38,7 +84,17 @@ function IntroSection() {
           hidden
           lg:block
           lg:w-[min(32vw,421px)]
-        "
+
+          transition-all
+          duration-[1200ms]
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          ${
+            isVisible
+              ? "translate-x-0 opacity-100"
+              : "translate-x-16 opacity-0"
+          }
+        `}
       >
         <div className="relative aspect-[9/16] w-full overflow-visible">
 
@@ -60,7 +116,23 @@ function IntroSection() {
             <img
               src="/handshake.webp"
               alt=""
-              className="absolute inset-0 h-full w-full object-cover"
+              className={`
+                absolute
+                inset-0
+                h-full
+                w-full
+                object-cover
+
+                transition-transform
+                duration-[1600ms]
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                ${
+                  isVisible
+                    ? "scale-100"
+                    : "scale-105"
+                }
+              `}
             />
 
             {/* VIDEO */}
@@ -78,11 +150,30 @@ function IntroSection() {
             {/* VIDEO OVERLAY */}
             <div className="pointer-events-none absolute inset-0 bg-[#071A35]/[0.06]" />
 
-
             {/* =================================================
                 BOTTOM VIDEO INFORMATION
             ================================================== */}
-            <div className="absolute bottom-0 left-0 right-0 px-5 pb-5">
+            <div
+              className={`
+                absolute
+                bottom-0
+                left-0
+                right-0
+                px-5
+                pb-5
+
+                transition-all
+                duration-800
+                delay-500
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-5 opacity-0"
+                }
+              `}
+            >
               <div className="flex items-center justify-between border-t border-white/20 pt-4">
 
                 <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-white sm:text-[9px]">
@@ -98,11 +189,31 @@ function IntroSection() {
 
           </div>
 
-
           {/* =====================================================
               ADVERTISERS
           ====================================================== */}
-          <div className="absolute left-0 top-[27%] hidden -translate-x-[78%] items-center gap-3 lg:flex">
+          <div
+            className={`
+              absolute
+              left-0
+              top-[27%]
+              hidden
+              items-center
+              gap-3
+              lg:flex
+
+              transition-all
+              duration-1000
+              delay-300
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+
+              ${
+                isVisible
+                  ? "translate-x-[-78%] opacity-100"
+                  : "translate-x-[-50%] opacity-0"
+              }
+            `}
+          >
 
             <div className="bg-white px-3 py-2 shadow-[0_8px_25px_rgba(7,26,53,0.08)]">
 
@@ -120,11 +231,31 @@ function IntroSection() {
 
           </div>
 
-
           {/* =====================================================
               PUBLISHERS
           ====================================================== */}
-          <div className="absolute bottom-[27%] left-0 hidden -translate-x-[78%] items-center gap-3 lg:flex">
+          <div
+            className={`
+              absolute
+              bottom-[27%]
+              left-0
+              hidden
+              items-center
+              gap-3
+              lg:flex
+
+              transition-all
+              duration-1000
+              delay-500
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+
+              ${
+                isVisible
+                  ? "translate-x-[-78%] opacity-100"
+                  : "translate-x-[-50%] opacity-0"
+              }
+            `}
+          >
 
             <div className="bg-white px-3 py-2 shadow-[0_8px_25px_rgba(7,26,53,0.08)]">
 
@@ -144,7 +275,6 @@ function IntroSection() {
 
         </div>
       </div>
-
 
       {/* =========================================================
           MAIN CONTENT
@@ -168,20 +298,37 @@ function IntroSection() {
 
           <div className="max-w-3xl">
 
-
             {/* =================================================
                 EYEBROW
             ================================================== */}
-            <p className="mb-6 text-[30px] font-semibold uppercase tracking-[0.3em] text-[#1261F2]">
+            <p
+              className={`
+                mb-6
+                text-[30px]
+                font-semibold
+                uppercase
+                tracking-[0.3em]
+                text-[#1261F2]
+
+                transition-all
+                duration-700
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-6 opacity-0"
+                }
+              `}
+            >
               What We Do
             </p>
-
 
             {/* =================================================
                 MAIN HEADING
             ================================================== */}
             <h2
-              className="
+              className={`
                 text-5xl
                 font-bold
                 leading-[0.96]
@@ -189,7 +336,18 @@ function IntroSection() {
                 text-[#071A35]
                 sm:text-6xl
                 lg:text-[70px]
-              "
+
+                transition-all
+                duration-[1000ms]
+                delay-100
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-10 opacity-0"
+                }
+              `}
             >
               We connect brands with{" "}
 
@@ -200,12 +358,11 @@ function IntroSection() {
               growth.
             </h2>
 
-
             {/* =================================================
                 DESCRIPTION
             ================================================== */}
             <p
-              className="
+              className={`
                 mt-7
                 max-w-xl
                 text-sm
@@ -213,20 +370,30 @@ function IntroSection() {
                 text-slate-600
                 sm:text-base
                 sm:leading-8
-              "
+
+                transition-all
+                duration-1000
+                delay-250
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-7 opacity-0"
+                }
+              `}
             >
               The Digital Sole brings advertisers and publishers together
               through performance-focused advertising solutions built around
               measurable outcomes.
             </p>
 
-
             {/* =================================================
                 CTA
             ================================================== */}
             <a
               href="#solutions"
-              className="
+              className={`
                 group
                 mt-7
                 inline-flex
@@ -236,9 +403,20 @@ function IntroSection() {
                 text-sm
                 font-semibold
                 text-[#071A35]
-                transition
+
+                transition-all
+                duration-1000
+                delay-400
+                ease-[cubic-bezier(0.22,1,0.36,1)]
+
                 hover:text-[#1261F2]
-              "
+
+                ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-7 opacity-0"
+                }
+              `}
             >
               Explore our solutions
 
@@ -252,7 +430,6 @@ function IntroSection() {
         </div>
 
       </div>
-
 
       {/* =========================================================
           MOBILE — VIDEO + FALLBACK IMAGE
@@ -272,7 +449,23 @@ function IntroSection() {
         <img
           src="/handshake.webp"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+
+            transition-transform
+            duration-[1600ms]
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+
+            ${
+              isVisible
+                ? "scale-100"
+                : "scale-105"
+            }
+          `}
         />
 
         {/* VIDEO */}
@@ -290,11 +483,30 @@ function IntroSection() {
         {/* VIDEO OVERLAY */}
         <div className="pointer-events-none absolute inset-0 bg-[#071A35]/[0.06]" />
 
-
         {/* =====================================================
             MOBILE VIDEO INFORMATION
         ====================================================== */}
-        <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
+        <div
+          className={`
+            absolute
+            bottom-0
+            left-0
+            right-0
+            px-6
+            pb-6
+
+            transition-all
+            duration-1000
+            delay-500
+            ease-[cubic-bezier(0.22,1,0.36,1)]
+
+            ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-5 opacity-0"
+            }
+          `}
+        >
 
           <div className="flex items-center justify-between border-t border-white/20 pt-4">
 
