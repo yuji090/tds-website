@@ -54,75 +54,90 @@ function VerticalsSection() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [loadedImages, setLoadedImages] = useState({});
 
   const total = verticals.length;
 
   /*
-    ==========================================
-    PRELOAD ALL VERTICAL IMAGES
-    ==========================================
-    
-    This starts loading the images as soon as
-    this component is mounted.
+  ==========================================
+  PRELOAD ALL VERTICAL IMAGES
+  ==========================================
   */
+
   useEffect(() => {
     verticals.forEach((vertical) => {
       const img = new Image();
+
+      img.onload = () => {
+        setLoadedImages((prev) => ({
+          ...prev,
+          [vertical.number]: true,
+        }));
+      };
+
       img.src = vertical.image;
+
+      if (img.complete) {
+        setLoadedImages((prev) => ({
+          ...prev,
+          [vertical.number]: true,
+        }));
+      }
     });
   }, []);
 
   /*
-    ==========================================
-    NEXT SLIDE
-    ==========================================
+  ==========================================
+  NEXT SLIDE
+  ==========================================
   */
+
   const nextSlide = () => {
     setActiveIndex((current) => (current + 1) % total);
   };
 
   /*
-    ==========================================
-    PREVIOUS SLIDE
-    ==========================================
+  ==========================================
+  PREVIOUS SLIDE
+  ==========================================
   */
+
   const prevSlide = () => {
     setActiveIndex((current) => (current - 1 + total) % total);
   };
 
   /*
-    ==========================================
-    GO TO SPECIFIC SLIDE
-    ==========================================
+  ==========================================
+  GO TO SPECIFIC SLIDE
+  ==========================================
   */
+
   const goToSlide = (index) => {
     setActiveIndex(index);
   };
 
   /*
-    ==========================================
-    AUTO SLIDE
-    ==========================================
+  ==========================================
+  AUTO SLIDE
+  ==========================================
   */
+
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
-      nextSlide();
+      setActiveIndex((current) => (current + 1) % total);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, total]);
 
   /*
-    ==========================================
-    GET SLIDE INDEX
-    ==========================================
-    
-    We keep:
-    
-    previous | current | next
+  ==========================================
+  GET SLIDE INDEX
+  ==========================================
   */
+
   const getSlideIndex = (offset) => {
     return (activeIndex + offset + total) % total;
   };
@@ -147,97 +162,193 @@ function VerticalsSection() {
       id="verticals"
       className="h-[100svh] min-h-[700px] overflow-hidden bg-[#071A35] text-white"
     >
-      <div className="mx-auto flex h-full max-w-[1600px] flex-col px-5 py-8 sm:px-6 lg:px-8 lg:py-10">
+      <div
+        className="
+          mx-auto
+          flex
+          h-full
+          max-w-7xl
+          flex-col
+          px-6
+          py-10
+          sm:px-6
+          lg:px-8
+          lg:py-12
+        "
+      >
 
-        {/* ========================= */}
-        {/* HEADER */}
-        {/* ========================= */}
+        {/* ========================================================= */}
+        {/* HEADER                                                    */}
+        {/* ========================================================= */}
 
-        <div className="flex shrink-0 items-end justify-between gap-8 px-1">
+        <div className="flex shrink-0 items-end justify-between gap-8">
+
           <div>
-            <p className="mb-3 text-[30px] font-semibold uppercase tracking-[0.28em] text-[#6DB7FF]">
+
+            {/* Eyebrow */}
+            <p
+              className="
+                mb-4
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.28em]
+                text-[#6DB7FF]
+                sm:text-[11px]
+              "
+            >
               Industries & Verticals
             </p>
 
-            <h2 className="max-w-4xl text-4xl font-bold leading-[0.95] tracking-[-0.045em] sm:text-5xl lg:text-[60px]">
+            {/* Heading */}
+            <h2
+              className="
+                max-w-4xl
+                text-4xl
+                font-bold
+                leading-[0.98]
+                tracking-[-0.045em]
+                sm:text-5xl
+                lg:text-[60px]
+              "
+            >
               Performance across{" "}
               <span className="text-[#6DB7FF]">
                 growing markets.
               </span>
             </h2>
+
           </div>
 
+          {/* Explore counter */}
           <div className="hidden items-center gap-4 lg:flex">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">
+
+            <span
+              className="
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.18em]
+                text-white/30
+              "
+            >
               Explore
             </span>
 
             <span className="text-sm font-semibold text-[#6DB7FF]">
               {verticals[activeIndex].number} / 06
             </span>
+
           </div>
+
         </div>
 
-        {/* ========================= */}
-        {/* CAROUSEL */}
-        {/* ========================= */}
+        {/* ========================================================= */}
+        {/* CAROUSEL                                                  */}
+        {/* ========================================================= */}
 
         <div
-          className="relative mt-8 min-h-0 flex-1 overflow-hidden"
+          className="relative mt-8 min-h-0 flex-1 overflow-hidden lg:mt-10"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
 
-          {/* LEFT ARROW */}
+          {/* ===================================================== */}
+          {/* LEFT ARROW                                             */}
+          {/* ===================================================== */}
 
           <button
             type="button"
             onClick={prevSlide}
             aria-label="Previous vertical"
-            className="absolute left-3 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#071A35]/70 text-white backdrop-blur-md transition duration-300 hover:border-[#6DB7FF]/50 hover:bg-[#1261F2] lg:left-6"
+            className="
+              absolute
+              left-3
+              top-1/2
+              z-30
+              flex
+              h-11
+              w-11
+              -translate-y-1/2
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/15
+              bg-[#071A35]/70
+              text-white
+              backdrop-blur-md
+              transition
+              duration-300
+              hover:border-[#6DB7FF]/50
+              hover:bg-[#1261F2]
+              lg:left-6
+            "
           >
-            <span className="text-xl">←</span>
+            <span className="text-xl">
+              ←
+            </span>
           </button>
 
-          {/* RIGHT ARROW */}
+          {/* ===================================================== */}
+          {/* RIGHT ARROW                                            */}
+          {/* ===================================================== */}
 
           <button
             type="button"
             onClick={nextSlide}
             aria-label="Next vertical"
-            className="absolute right-3 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#071A35]/70 text-white backdrop-blur-md transition duration-300 hover:border-[#6DB7FF]/50 hover:bg-[#1261F2] lg:right-6"
+            className="
+              absolute
+              right-3
+              top-1/2
+              z-30
+              flex
+              h-11
+              w-11
+              -translate-y-1/2
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/15
+              bg-[#071A35]/70
+              text-white
+              backdrop-blur-md
+              transition
+              duration-300
+              hover:border-[#6DB7FF]/50
+              hover:bg-[#1261F2]
+              lg:right-6
+            "
           >
-            <span className="text-xl">→</span>
+            <span className="text-xl">
+              →
+            </span>
           </button>
 
-          {/* ========================= */}
-          {/* SLIDE TRACK */}
-          {/* ========================= */}
+          {/* ===================================================== */}
+          {/* SLIDE TRACK                                             */}
+          {/* ===================================================== */}
 
           <div className="flex h-full items-center justify-center gap-4 lg:gap-6">
 
             {slides.map((slide) => {
               const isActive = slide.position === 0;
+              const imageLoaded = loadedImages[slide.data.number];
 
               return (
                 <div
-                  /*
-                    IMPORTANT:
-                    Stable key based on physical slide position.
-
-                    Previously:
-                    key={`${slide.data.number}-${activeIndex}`}
-
-                    That caused React to destroy and recreate
-                    image elements every time activeIndex changed.
-
-                    Now the 3 slide containers stay mounted.
-                  */
-                  key={slide.position}
+                  key={`${slide.position}-${slide.data.number}`}
                   className={`
-                    relative h-full shrink-0 overflow-hidden
-                    transition-all duration-[900ms]
+                    relative
+                    h-full
+                    shrink-0
+                    overflow-hidden
+                    transition-all
+                    duration-[900ms]
                     ease-[cubic-bezier(0.22,1,0.36,1)]
+
                     ${
                       isActive
                         ? "w-[82vw] sm:w-[78vw] lg:w-[78vw] xl:w-[80vw]"
@@ -246,15 +357,36 @@ function VerticalsSection() {
                   `}
                 >
 
-                  {/* IMAGE */}
+                  {/* ================================================= */}
+                  {/* IMAGE                                              */}
+                  {/* ================================================= */}
 
                   <img
+                    key={`${slide.position}-${slide.data.number}-image`}
                     src={slide.data.image}
                     alt={slide.data.title}
+                    loading="eager"
+                    decoding="async"
+                    onLoad={() => {
+                      setLoadedImages((prev) => ({
+                        ...prev,
+                        [slide.data.number]: true,
+                      }));
+                    }}
                     className={`
-                      h-full w-full object-cover
-                      transition-transform duration-[1200ms]
+                      h-full
+                      w-full
+                      object-cover
+                      transition-all
+                      duration-[900ms]
                       ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                      ${
+                        imageLoaded
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }
+
                       ${
                         isActive
                           ? "scale-100"
@@ -263,11 +395,17 @@ function VerticalsSection() {
                     `}
                   />
 
-                  {/* DARK OVERLAY */}
+                  {/* ================================================= */}
+                  {/* DARK OVERLAY                                        */}
+                  {/* ================================================= */}
 
                   <div
                     className={`
-                      absolute inset-0 transition duration-700
+                      absolute
+                      inset-0
+                      transition
+                      duration-700
+
                       ${
                         isActive
                           ? "bg-gradient-to-t from-[#071A35]/90 via-[#071A35]/15 to-[#071A35]/10"
@@ -276,58 +414,103 @@ function VerticalsSection() {
                     `}
                   />
 
-                  {/* ========================= */}
-                  {/* SIDE SLIDE LABEL */}
-                  {/* ========================= */}
+                  {/* ================================================= */}
+                  {/* SIDE SLIDE LABEL                                    */}
+                  {/* ================================================= */}
 
                   {!isActive && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="rotate-[-90deg] whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-white/60">
+
+                      <span
+                        className="
+                          rotate-[-90deg]
+                          whitespace-nowrap
+                          text-[9px]
+                          font-semibold
+                          uppercase
+                          tracking-[0.2em]
+                          text-white/60
+                        "
+                      >
                         {slide.data.title}
                       </span>
+
                     </div>
                   )}
 
-                  {/* ========================= */}
-                  {/* CURRENT IMAGE CONTENT */}
-                  {/* ========================= */}
+                  {/* ================================================= */}
+                  {/* CURRENT IMAGE CONTENT                              */}
+                  {/* ================================================= */}
 
                   {isActive && (
                     <div
                       key={slide.data.number}
-                      className="absolute bottom-0 left-0 right-0 p-6 animate-[verticalContentIn_800ms_cubic-bezier(0.22,1,0.36,1)_both] sm:p-8 lg:p-10"
+                      className="
+                        absolute
+                        bottom-0
+                        left-0
+                        right-0
+                        p-6
+                        animate-[verticalContentIn_800ms_cubic-bezier(0.22,1,0.36,1)_both]
+                        sm:p-8
+                        lg:p-10
+                      "
                     >
 
                       <div className="flex items-end justify-between gap-8">
 
                         <div className="max-w-3xl">
 
-                          {/* NUMBER */}
-
+                          {/* Number */}
                           <div className="mb-3 flex items-center gap-3">
-                            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6DB7FF]">
+
+                            <span
+                              className="
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.2em]
+                                text-[#6DB7FF]
+                              "
+                            >
                               {slide.data.number}
                             </span>
 
                             <span className="h-px w-8 bg-[#6DB7FF]/60" />
+
                           </div>
 
-                          {/* TITLE */}
-
-                          <h3 className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl lg:text-5xl">
+                          {/* Title */}
+                          <h3
+                            className="
+                              text-3xl
+                              font-bold
+                              tracking-[-0.04em]
+                              sm:text-4xl
+                              lg:text-5xl
+                            "
+                          >
                             {slide.data.title}
                           </h3>
 
-                          {/* DESCRIPTION */}
-
-                          <p className="mt-3 max-w-2xl text-xs leading-6 text-white/65 sm:text-sm sm:leading-7">
+                          {/* Description */}
+                          <p
+                            className="
+                              mt-3
+                              max-w-2xl
+                              text-xs
+                              leading-6
+                              text-white/65
+                              sm:text-sm
+                              sm:leading-7
+                            "
+                          >
                             {slide.data.description}
                           </p>
 
                         </div>
 
-                        {/* ARROW */}
-
+                        {/* Arrow */}
                         <span className="hidden text-2xl text-white/50 lg:block">
                           ↗
                         </span>
@@ -342,17 +525,26 @@ function VerticalsSection() {
             })}
 
           </div>
+
         </div>
 
-        {/* ========================= */}
-        {/* BOTTOM NAV */}
-        {/* ========================= */}
+        {/* ========================================================= */}
+        {/* BOTTOM NAV                                                */}
+        {/* ========================================================= */}
 
         <div className="flex shrink-0 items-center justify-between border-t border-white/10 pt-4">
 
           <div className="flex items-center gap-4">
 
-            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/30">
+            <span
+              className="
+                text-[9px]
+                font-semibold
+                uppercase
+                tracking-[0.18em]
+                text-white/30
+              "
+            >
               Industries
             </span>
 
@@ -369,7 +561,11 @@ function VerticalsSection() {
 
                   <span
                     className={`
-                      text-[9px] font-semibold transition-colors duration-300
+                      text-[9px]
+                      font-semibold
+                      transition-colors
+                      duration-300
+
                       ${
                         index === activeIndex
                           ? "text-[#6DB7FF]"
@@ -382,7 +578,10 @@ function VerticalsSection() {
 
                   <span
                     className={`
-                      h-px transition-all duration-500
+                      h-px
+                      transition-all
+                      duration-500
+
                       ${
                         index === activeIndex
                           ? "w-7 bg-[#6DB7FF]"
@@ -395,28 +594,35 @@ function VerticalsSection() {
               ))}
 
             </div>
+
           </div>
 
-          {/* PROGRESS */}
-
+          {/* Progress */}
           <div className="hidden w-32 overflow-hidden bg-white/10 sm:block">
+
             <div
               key={activeIndex}
-              className="h-px bg-[#6DB7FF] animate-[verticalProgress_5000ms_linear_both]"
+              className="
+                h-px
+                bg-[#6DB7FF]
+                animate-[verticalProgress_5000ms_linear_both]
+              "
               style={{
                 animationPlayState: isPaused
                   ? "paused"
                   : "running",
               }}
             />
+
           </div>
 
         </div>
+
       </div>
 
-      {/* ========================= */}
-      {/* ANIMATIONS */}
-      {/* ========================= */}
+      {/* ========================================================= */}
+      {/* ANIMATIONS                                                */}
+      {/* ========================================================= */}
 
       <style>{`
         @keyframes verticalContentIn {
@@ -441,6 +647,7 @@ function VerticalsSection() {
           }
         }
       `}</style>
+
     </section>
   );
 }
