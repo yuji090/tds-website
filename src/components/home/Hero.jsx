@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import logo from "../../assets/w.png";
 import logo2 from "../../assets/tds_logo_03.png";
@@ -7,6 +7,8 @@ function Hero() {
   const [videoFailed, setVideoFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+
+  const hasReanimated = useRef(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,14 +24,20 @@ function Hero() {
 
       setScrollY(y);
 
-      // Re-trigger hero entrance animation
-      // when user scrolls back near the top
-      if (y < window.innerHeight * 0.35) {
+      // Re-trigger only once when coming back near the top
+      if (y < window.innerHeight * 0.35 && !hasReanimated.current) {
+        hasReanimated.current = true;
+
         setLoaded(false);
 
         setTimeout(() => {
           setLoaded(true);
         }, 50);
+      }
+
+      // Allow re-animation again after leaving the Hero area
+      if (y >= window.innerHeight * 0.35) {
+        hasReanimated.current = false;
       }
     };
 
