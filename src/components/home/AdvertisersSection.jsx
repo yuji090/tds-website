@@ -25,33 +25,33 @@ function AdvertisersSection() {
   return (
     <section
       id="advertisers"
-      className="h-[100svh] min-h-[700px] overflow-hidden bg-[#071A35]"
+      className="bg-[#071A35] text-white"
     >
-      <div className="mx-auto flex h-full max-w-7xl items-center px-6 py-10 lg:px-8">
+      <div className="mx-auto flex min-h-[100svh] max-w-7xl items-center px-6 py-20 sm:px-8 sm:py-24 lg:px-8 lg:py-20">
 
-        <div className="grid w-full items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        <div className="grid w-full items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
 
-          {/* ========================= */}
-          {/* LEFT CONTENT */}
-          {/* ========================= */}
+          {/* ================================================= */}
+          {/* LEFT — ADVERTISER CONTENT */}
+          {/* ================================================= */}
 
           <div>
 
-            <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#6DB7FF]">
-              For Advertisers
-            </p>
+            <p className="mb-7 text-4xl font-bold leading-none tracking-[-0.04em] text-[#6DB7FF] sm:text-5xl lg:text-6xl">
+  For Advertisers
+</p>
 
-            <h2 className="max-w-xl text-5xl font-bold leading-[0.98] tracking-[-0.045em] text-white sm:text-6xl lg:text-[68px]">
-              Turn your
-              <br />
-              budget into
-              <br />
-              <span className="text-[#6DB7FF]">
-                real growth.
-              </span>
-            </h2>
+<h2 className="max-w-xl text-4xl font-bold leading-[0.98] tracking-[-0.045em] text-white sm:text-5xl lg:text-[56px]">
+  Turn your
+  <br />
+  budget into
+  <br />
+  <span className="text-[#6DB7FF]">
+    real growth.
+  </span>
+</h2>
 
-            <p className="mt-7 max-w-lg text-sm leading-7 text-white/60 sm:text-base">
+            <p className="mt-7 max-w-xl text-base leading-7 text-white/60 sm:mt-8 sm:text-lg sm:leading-8">
               Launch performance campaigns with the right traffic partners,
               track meaningful actions, and scale the channels that deliver
               measurable results.
@@ -59,45 +59,63 @@ function AdvertisersSection() {
 
             <a
               href="#contact"
-              className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#1261F2] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0d4fd1]"
+              className="
+                mt-8
+                inline-flex
+                items-center
+                gap-3
+                rounded-full
+                bg-[#1261F2]
+                px-6
+                py-3.5
+                text-sm
+                font-semibold
+                text-white
+                transition
+                duration-300
+                hover:bg-[#0d4fd1]
+                sm:mt-9
+                sm:px-7
+                sm:py-4
+              "
             >
               Talk to our team
-              <span className="text-base">→</span>
+              <span className="text-base">
+                →
+              </span>
             </a>
 
           </div>
 
-          {/* ========================= */}
-          {/* RIGHT PERFORMANCE PANEL */}
-          {/* ========================= */}
+          {/* ================================================= */}
+          {/* RIGHT — PERFORMANCE FRAMEWORK */}
+          {/* ================================================= */}
 
           <div className="relative">
 
-            {/* Decorative rings */}
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full border border-white/[0.06]" />
-            <div className="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full border border-white/[0.05]" />
+            {/* Decorative circles */}
+            <div className="pointer-events-none absolute -right-16 -top-16 hidden h-64 w-64 rounded-full border border-white/[0.06] sm:block lg:-right-20 lg:-top-20 lg:h-72 lg:w-72" />
 
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.035]">
+            <div className="pointer-events-none absolute -bottom-16 -left-16 hidden h-56 w-56 rounded-full border border-white/[0.05] sm:block lg:-bottom-20 lg:-left-20 lg:h-64 lg:w-64" />
 
-              {/* Panel header */}
-              <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+            <div className="relative border border-white/10 bg-white/[0.025]">
+
+              {/* Header */}
+              <div className="flex items-start justify-between border-b border-white/10 px-5 py-5 sm:px-6 sm:py-6">
 
                 <div>
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#6DB7FF]">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#6DB7FF] sm:text-[10px]">
                     Performance Framework
                   </p>
 
-                  <p className="mt-1 text-sm font-semibold text-white">
+                  <h3 className="mt-1.5 text-base font-semibold text-white sm:text-xl">
                     Built around your growth goals
-                  </p>
+                  </h3>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#6DB7FF]" />
-                  <span className="text-[9px] font-medium uppercase tracking-[0.15em] text-white/40">
-                    Live
-                  </span>
-                </div>
+                <span className="hidden text-[9px] font-medium uppercase tracking-[0.16em] text-white/30 sm:block">
+                  TDS
+                </span>
 
               </div>
 
@@ -107,64 +125,72 @@ function AdvertisersSection() {
                 {capabilities.map((item) => (
                   <div
                     key={item.number}
-                    className="group flex gap-5 px-6 py-6 transition hover:bg-white/[0.035]"
+                    className="
+                      group
+                      grid
+                      grid-cols-[32px_1fr_auto]
+                      gap-3
+                      px-5
+                      py-5
+                      transition
+                      duration-300
+                      hover:bg-white/[0.035]
+                      sm:grid-cols-[42px_1fr_auto]
+                      sm:gap-5
+                      sm:px-6
+                      sm:py-6
+                    "
                   >
 
-                    <span className="pt-1 text-[10px] font-semibold text-[#6DB7FF]">
+                    <span className="pt-0.5 text-[10px] font-semibold text-[#6DB7FF] sm:text-xs">
                       {item.number}
                     </span>
 
-                    <div className="flex-1">
+                    <div>
 
-                      <div className="flex items-center justify-between gap-4">
+                      <h4 className="text-sm font-semibold text-white sm:text-base">
+                        {item.title}
+                      </h4>
 
-                        <h3 className="text-base font-semibold tracking-tight text-white">
-                          {item.title}
-                        </h3>
-
-                        <span className="text-white/20 transition duration-300 group-hover:translate-x-1 group-hover:text-[#6DB7FF]">
-                          ↗
-                        </span>
-
-                      </div>
-
-                      <p className="mt-2 max-w-lg text-xs leading-6 text-white/45">
+                      <p className="mt-1.5 max-w-xl text-xs leading-5 text-white/45 sm:mt-2 sm:text-sm sm:leading-6">
                         {item.text}
                       </p>
 
                     </div>
+
+                    <span className="pt-0.5 text-sm text-white/20 transition duration-300 group-hover:translate-x-1 group-hover:text-[#6DB7FF] sm:text-lg">
+                      ↗
+                    </span>
 
                   </div>
                 ))}
 
               </div>
 
-              {/* Bottom strip */}
-              <div className="border-t border-white/10 bg-white/[0.025] px-6 py-5">
+              {/* Performance Models */}
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-white/10 px-5 py-5 sm:gap-x-7 sm:px-6">
 
-                <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
+                <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-white/30 sm:text-[10px]">
+                  Performance models
+                </span>
 
-                  <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-white/35">
-                    Performance Models
+                {["CPI", "CPA", "CPL", "CPS"].map((model) => (
+                  <span
+                    key={model}
+                    className="text-xs font-semibold text-[#6DB7FF] sm:text-sm"
+                  >
+                    {model}
                   </span>
-
-                  {["CPI", "CPA", "CPL", "CPS"].map((model) => (
-                    <span
-                      key={model}
-                      className="text-xs font-semibold text-[#6DB7FF]"
-                    >
-                      {model}
-                    </span>
-                  ))}
-
-                </div>
+                ))}
 
               </div>
 
             </div>
+
           </div>
 
         </div>
+
       </div>
     </section>
   );

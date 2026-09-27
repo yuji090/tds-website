@@ -112,7 +112,13 @@ function Footer() {
                 href="mailto:hello@thedigitalsole.com"
                 className="w-fit text-sm text-white/55 transition hover:text-white"
               >
-                hello@thedigitalsole.com
+                sales@thedigitalsole.com
+              </a>
+
+              <a
+                className="w-fit text-sm text-white/55 transition hover:text-white"
+              >
+                +1(507) 501-1955
               </a>
 
               <a
