@@ -23,10 +23,10 @@ function Hero() {
       {/* ========================================================= */}
 
       <img
-        src="/wave.png"
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+  src="/wave.webp"
+  alt=""
+  className="absolute inset-0 h-full w-full object-cover"
+/>
 
 
       {/* ========================================================= */}

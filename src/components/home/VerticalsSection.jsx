@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+
 import igaming from "../../assets/igaming.svg";
 import ecomm from "../../assets/ecomm.png";
 import finn from "../../assets/fin.jpg";
 import travel from "../../assets/travel.png";
 import apps from "../../assets/apps.jpg";
-
 
 function VerticalsSection() {
   const verticals = [
@@ -57,18 +57,53 @@ function VerticalsSection() {
 
   const total = verticals.length;
 
+  /*
+    ==========================================
+    PRELOAD ALL VERTICAL IMAGES
+    ==========================================
+    
+    This starts loading the images as soon as
+    this component is mounted.
+  */
+  useEffect(() => {
+    verticals.forEach((vertical) => {
+      const img = new Image();
+      img.src = vertical.image;
+    });
+  }, []);
+
+  /*
+    ==========================================
+    NEXT SLIDE
+    ==========================================
+  */
   const nextSlide = () => {
     setActiveIndex((current) => (current + 1) % total);
   };
 
+  /*
+    ==========================================
+    PREVIOUS SLIDE
+    ==========================================
+  */
   const prevSlide = () => {
     setActiveIndex((current) => (current - 1 + total) % total);
   };
 
+  /*
+    ==========================================
+    GO TO SPECIFIC SLIDE
+    ==========================================
+  */
   const goToSlide = (index) => {
     setActiveIndex(index);
   };
 
+  /*
+    ==========================================
+    AUTO SLIDE
+    ==========================================
+  */
   useEffect(() => {
     if (isPaused) return;
 
@@ -80,11 +115,13 @@ function VerticalsSection() {
   }, [isPaused]);
 
   /*
-    We render 3 copies around the active slide:
+    ==========================================
+    GET SLIDE INDEX
+    ==========================================
+    
+    We keep:
+    
     previous | current | next
-
-    This gives the carousel the Netflix/Amazon style
-    where neighbouring slides remain visible.
   */
   const getSlideIndex = (offset) => {
     return (activeIndex + offset + total) % total;
@@ -117,7 +154,6 @@ function VerticalsSection() {
         {/* ========================= */}
 
         <div className="flex shrink-0 items-end justify-between gap-8 px-1">
-
           <div>
             <p className="mb-3 text-[30px] font-semibold uppercase tracking-[0.28em] text-[#6DB7FF]">
               Industries & Verticals
@@ -140,7 +176,6 @@ function VerticalsSection() {
               {verticals[activeIndex].number} / 06
             </span>
           </div>
-
         </div>
 
         {/* ========================= */}
@@ -186,7 +221,19 @@ function VerticalsSection() {
 
               return (
                 <div
-                  key={`${slide.data.number}-${activeIndex}`}
+                  /*
+                    IMPORTANT:
+                    Stable key based on physical slide position.
+
+                    Previously:
+                    key={`${slide.data.number}-${activeIndex}`}
+
+                    That caused React to destroy and recreate
+                    image elements every time activeIndex changed.
+
+                    Now the 3 slide containers stay mounted.
+                  */
+                  key={slide.position}
                   className={`
                     relative h-full shrink-0 overflow-hidden
                     transition-all duration-[900ms]
@@ -198,6 +245,8 @@ function VerticalsSection() {
                     }
                   `}
                 >
+
+                  {/* IMAGE */}
 
                   <img
                     src={slide.data.image}
@@ -227,7 +276,9 @@ function VerticalsSection() {
                     `}
                   />
 
+                  {/* ========================= */}
                   {/* SIDE SLIDE LABEL */}
+                  {/* ========================= */}
 
                   {!isActive && (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -237,7 +288,9 @@ function VerticalsSection() {
                     </div>
                   )}
 
+                  {/* ========================= */}
                   {/* CURRENT IMAGE CONTENT */}
+                  {/* ========================= */}
 
                   {isActive && (
                     <div
@@ -249,6 +302,8 @@ function VerticalsSection() {
 
                         <div className="max-w-3xl">
 
+                          {/* NUMBER */}
+
                           <div className="mb-3 flex items-center gap-3">
                             <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6DB7FF]">
                               {slide.data.number}
@@ -257,15 +312,21 @@ function VerticalsSection() {
                             <span className="h-px w-8 bg-[#6DB7FF]/60" />
                           </div>
 
+                          {/* TITLE */}
+
                           <h3 className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl lg:text-5xl">
                             {slide.data.title}
                           </h3>
+
+                          {/* DESCRIPTION */}
 
                           <p className="mt-3 max-w-2xl text-xs leading-6 text-white/65 sm:text-sm sm:leading-7">
                             {slide.data.description}
                           </p>
 
                         </div>
+
+                        {/* ARROW */}
 
                         <span className="hidden text-2xl text-white/50 lg:block">
                           ↗
@@ -281,7 +342,6 @@ function VerticalsSection() {
             })}
 
           </div>
-
         </div>
 
         {/* ========================= */}
@@ -306,6 +366,7 @@ function VerticalsSection() {
                   aria-label={`Go to ${vertical.title}`}
                   className="group flex items-center gap-1.5"
                 >
+
                   <span
                     className={`
                       text-[9px] font-semibold transition-colors duration-300
@@ -329,11 +390,11 @@ function VerticalsSection() {
                       }
                     `}
                   />
+
                 </button>
               ))}
 
             </div>
-
           </div>
 
           {/* PROGRESS */}
@@ -343,13 +404,14 @@ function VerticalsSection() {
               key={activeIndex}
               className="h-px bg-[#6DB7FF] animate-[verticalProgress_5000ms_linear_both]"
               style={{
-                animationPlayState: isPaused ? "paused" : "running",
+                animationPlayState: isPaused
+                  ? "paused"
+                  : "running",
               }}
             />
           </div>
 
         </div>
-
       </div>
 
       {/* ========================= */}
