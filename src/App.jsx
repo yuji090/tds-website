@@ -20,7 +20,12 @@ function App() {
 
     images.forEach((src) => {
       const img = new Image();
+
       img.src = src;
+
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
     });
   }, []);
 

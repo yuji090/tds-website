@@ -48,43 +48,14 @@ function VerticalsSection() {
       title: "Consumer & More",
       description:
         "Flexible performance campaigns across emerging categories and digital products.",
-      image: "/verticals/consumer.jpg",
+      image: ecomm,
     },
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [loadedImages, setLoadedImages] = useState({});
 
   const total = verticals.length;
-
-  /*
-  ==========================================
-  PRELOAD ALL VERTICAL IMAGES
-  ==========================================
-  */
-
-  useEffect(() => {
-    verticals.forEach((vertical) => {
-      const img = new Image();
-
-      img.onload = () => {
-        setLoadedImages((prev) => ({
-          ...prev,
-          [vertical.number]: true,
-        }));
-      };
-
-      img.src = vertical.image;
-
-      if (img.complete) {
-        setLoadedImages((prev) => ({
-          ...prev,
-          [vertical.number]: true,
-        }));
-      }
-    });
-  }, []);
 
   /*
   ==========================================
@@ -176,15 +147,12 @@ function VerticalsSection() {
           lg:py-12
         "
       >
-
         {/* ========================================================= */}
         {/* HEADER                                                    */}
         {/* ========================================================= */}
 
         <div className="flex shrink-0 items-end justify-between gap-8">
-
           <div>
-
             {/* Eyebrow */}
             <p
               className="
@@ -217,12 +185,10 @@ function VerticalsSection() {
                 growing markets.
               </span>
             </h2>
-
           </div>
 
           {/* Explore counter */}
           <div className="hidden items-center gap-4 lg:flex">
-
             <span
               className="
                 text-[10px]
@@ -238,9 +204,7 @@ function VerticalsSection() {
             <span className="text-sm font-semibold text-[#6DB7FF]">
               {verticals[activeIndex].number} / 06
             </span>
-
           </div>
-
         </div>
 
         {/* ========================================================= */}
@@ -252,7 +216,6 @@ function VerticalsSection() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-
           {/* ===================================================== */}
           {/* LEFT ARROW                                             */}
           {/* ===================================================== */}
@@ -285,9 +248,7 @@ function VerticalsSection() {
               lg:left-6
             "
           >
-            <span className="text-xl">
-              ←
-            </span>
+            <span className="text-xl">←</span>
           </button>
 
           {/* ===================================================== */}
@@ -322,9 +283,7 @@ function VerticalsSection() {
               lg:right-6
             "
           >
-            <span className="text-xl">
-              →
-            </span>
+            <span className="text-xl">→</span>
           </button>
 
           {/* ===================================================== */}
@@ -332,10 +291,8 @@ function VerticalsSection() {
           {/* ===================================================== */}
 
           <div className="flex h-full items-center justify-center gap-4 lg:gap-6">
-
             {slides.map((slide) => {
               const isActive = slide.position === 0;
-              const imageLoaded = loadedImages[slide.data.number];
 
               return (
                 <div
@@ -356,23 +313,15 @@ function VerticalsSection() {
                     }
                   `}
                 >
-
                   {/* ================================================= */}
                   {/* IMAGE                                              */}
                   {/* ================================================= */}
 
                   <img
-                    key={`${slide.position}-${slide.data.number}-image`}
                     src={slide.data.image}
                     alt={slide.data.title}
                     loading="eager"
                     decoding="async"
-                    onLoad={() => {
-                      setLoadedImages((prev) => ({
-                        ...prev,
-                        [slide.data.number]: true,
-                      }));
-                    }}
                     className={`
                       h-full
                       w-full
@@ -380,13 +329,6 @@ function VerticalsSection() {
                       transition-all
                       duration-[900ms]
                       ease-[cubic-bezier(0.22,1,0.36,1)]
-
-                      ${
-                        imageLoaded
-                          ? "opacity-100"
-                          : "opacity-0"
-                      }
-
                       ${
                         isActive
                           ? "scale-100"
@@ -420,7 +362,6 @@ function VerticalsSection() {
 
                   {!isActive && (
                     <div className="absolute inset-0 flex items-center justify-center">
-
                       <span
                         className="
                           rotate-[-90deg]
@@ -434,7 +375,6 @@ function VerticalsSection() {
                       >
                         {slide.data.title}
                       </span>
-
                     </div>
                   )}
 
@@ -456,14 +396,10 @@ function VerticalsSection() {
                         lg:p-10
                       "
                     >
-
                       <div className="flex items-end justify-between gap-8">
-
                         <div className="max-w-3xl">
-
                           {/* Number */}
                           <div className="mb-3 flex items-center gap-3">
-
                             <span
                               className="
                                 text-[10px]
@@ -477,7 +413,6 @@ function VerticalsSection() {
                             </span>
 
                             <span className="h-px w-8 bg-[#6DB7FF]/60" />
-
                           </div>
 
                           {/* Title */}
@@ -507,25 +442,19 @@ function VerticalsSection() {
                           >
                             {slide.data.description}
                           </p>
-
                         </div>
 
                         {/* Arrow */}
                         <span className="hidden text-2xl text-white/50 lg:block">
                           ↗
                         </span>
-
                       </div>
-
                     </div>
                   )}
-
                 </div>
               );
             })}
-
           </div>
-
         </div>
 
         {/* ========================================================= */}
@@ -533,9 +462,7 @@ function VerticalsSection() {
         {/* ========================================================= */}
 
         <div className="flex shrink-0 items-center justify-between border-t border-white/10 pt-4">
-
           <div className="flex items-center gap-4">
-
             <span
               className="
                 text-[9px]
@@ -549,7 +476,6 @@ function VerticalsSection() {
             </span>
 
             <div className="flex items-center gap-2">
-
               {verticals.map((vertical, index) => (
                 <button
                   key={vertical.number}
@@ -558,7 +484,6 @@ function VerticalsSection() {
                   aria-label={`Go to ${vertical.title}`}
                   className="group flex items-center gap-1.5"
                 >
-
                   <span
                     className={`
                       text-[9px]
@@ -589,17 +514,13 @@ function VerticalsSection() {
                       }
                     `}
                   />
-
                 </button>
               ))}
-
             </div>
-
           </div>
 
           {/* Progress */}
           <div className="hidden w-32 overflow-hidden bg-white/10 sm:block">
-
             <div
               key={activeIndex}
               className="
@@ -613,11 +534,8 @@ function VerticalsSection() {
                   : "running",
               }}
             />
-
           </div>
-
         </div>
-
       </div>
 
       {/* ========================================================= */}
@@ -647,7 +565,6 @@ function VerticalsSection() {
           }
         }
       `}</style>
-
     </section>
   );
 }
