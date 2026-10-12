@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Header() {
   return (
     <header className="absolute left-0 top-0 z-50 w-full">
@@ -7,52 +9,29 @@ function Header() {
 
         <nav className="flex items-center gap-7 rounded-full border border-white/15 bg-[#061936]/60 px-5 py-2.5 shadow-xl backdrop-blur-md lg:gap-8">
 
-          <a
-            href="#solutions"
+          <Link
+            to="/"
             className="text-sm font-medium text-white/90 transition hover:text-[#6DB7FF]"
           >
-            Solutions
-          </a>
+            Home
+          </Link>
 
-          <a
-            href="#advertisers"
-            className="text-sm font-medium text-white/90 transition hover:text-[#6DB7FF]"
-          >
-            Advertisers
-          </a>
-
-          <a
-            href="#publishers"
-            className="text-sm font-medium text-white/90 transition hover:text-[#6DB7FF]"
-          >
-            Publishers
-          </a>
-
-          <a
-            href="#about"
+          <Link
+            to="/about"
             className="text-sm font-medium text-white/90 transition hover:text-[#6DB7FF]"
           >
             About
-          </a>
+          </Link>
 
-          <a
-            href="#insights"
-            className="text-sm font-medium text-white/90 transition hover:text-[#6DB7FF]"
-          >
-            Insights
-          </a>
-
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className="ml-1 rounded-full bg-[#1261F2] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#0d4fd1]"
           >
             Get in touch
-          </a>
+          </Link>
 
         </nav>
-
       </div>
-
 
       {/* Mobile */}
       <div className="flex h-[76px] items-center justify-end px-5 md:hidden">
